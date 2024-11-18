@@ -12,8 +12,8 @@ public class Day5 {
     private static final int YEAR = 2022;
     private static final int DAY = 5;
 
-    private static final Pattern USELESS_LINE_PATTERN = Pattern.compile("^\\s(\\d+\\s*)*");
-    private static final Pattern MOVE_LINE_PATTERN = Pattern.compile("\\d+");
+    private static final Pattern USELESS_LINE_PATTERN = Pattern.compile("^\\s(\\d{1,4}\\s*)*");
+    private static final Pattern MOVE_LINE_PATTERN = Pattern.compile("\\d{1,2}");
     private static final Pattern STACK_LINE_PATTERN = Pattern.compile("\\[\\w\\]|\\s{3,5}");
 
     public static String solutionPart1(InputFileSize aFileSize) {

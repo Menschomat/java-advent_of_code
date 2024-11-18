@@ -20,11 +20,12 @@ public class Day5 {
         final SolverInput input = getSolverInput(YEAR, DAY, aFileSize);
         input.moves().forEach(aMove -> {
             for (int i = 0; i < aMove.count(); i++) {
+                Character toMove = input.idToCharStack()
+                        .get(aMove.source())
+                        .pop();
                 input.idToCharStack()
                         .get(aMove.target())
-                        .push(input.idToCharStack()
-                                .get(aMove.source())
-                                .pop());
+                        .push(toMove);
             }
         });
         return parseSolutionFromMap(input.idToCharStack());
@@ -36,11 +37,12 @@ public class Day5 {
         input.moves().forEach(aMove -> {
             List<Character> buffer = new ArrayList<>();
             for (int i = 0; i < aMove.count(); i++) {
-                buffer.add(input.idToCharStack()
+                Character toMove = input.idToCharStack()
                         .get(aMove.source())
-                        .pop());
+                        .pop();
+                buffer.add(toMove);
             }
-            Collections.reverse(buffer);
+            Collections.reverse(buffer); //Reverse the list to add it original order to the stack
             input.idToCharStack().get(aMove.target()).addAll(buffer);
         });
         return parseSolutionFromMap(input.idToCharStack());
@@ -59,8 +61,7 @@ public class Day5 {
     }
 
     private static SolverInput getSolverInput(int aYear, int aDay, InputFileSize aSize) {
-        final List<String> inputLines = InputProvider.getInputLines(aYear, aDay, aSize);
-        return getSolverInput(inputLines);
+        return getSolverInput(InputProvider.getInputLines(aYear, aDay, aSize));
     }
 
     private static SolverInput getSolverInput(List<String> aRawLines) {
@@ -86,13 +87,13 @@ public class Day5 {
     }
 
     private static Map<Integer, Stack<Character>> stackLinesToMap(Stack<String> aStackLines) {
-        Map<Integer, Stack<Character>> output = new HashMap<>();
+        final Map<Integer, Stack<Character>> output = new HashMap<>();
         while (!aStackLines.isEmpty()) {
             final List<Character> stackLine = parseRawStackLine(aStackLines.pop());
             for (int i = 0; i < stackLine.size(); i++) {
                 if (stackLine.get(i) == null)
                     continue;
-                Stack<Character> stack = output.getOrDefault(i + 1, new Stack<>());
+                final Stack<Character> stack = output.getOrDefault(i + 1, new Stack<>());
                 stack.push(stackLine.get(i));
                 output.put(i + 1, stack);
             }

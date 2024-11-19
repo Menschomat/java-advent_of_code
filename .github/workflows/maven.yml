@@ -37,7 +37,11 @@ jobs:
 
       - name: Debug test reports
         run: ls -R target
-
+      - name: Upload Surefire reports
+        uses: actions/upload-artifact@v3
+        with:
+          name: surefire-reports
+          path: target/surefire-reports/
       - uses: dorny/test-reporter@v1
         name: Upload test report
         with:

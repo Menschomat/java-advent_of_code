@@ -23,16 +23,14 @@ class Day2Test {
     }
 
     @Test
-    @Disabled("NOT IMPLEMENTED")
     void solutionPart2Small() {
         int smallOut = Day2.solutionPart2(InputFileSize.SMALL);
-        Assertions.assertEquals(-1, smallOut);
+        Assertions.assertEquals(12, smallOut);
     }
 
     @Test
-    @Disabled("NOT IMPLEMENTED")
     void solutionPart2Full() {
         int fullOut = Day2.solutionPart2(InputFileSize.FULL);
-        Assertions.assertEquals(-1, fullOut);
+        Assertions.assertEquals(14652, fullOut);
     }
 }

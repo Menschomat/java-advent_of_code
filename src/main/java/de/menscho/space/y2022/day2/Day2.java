@@ -38,8 +38,18 @@ public class Day2 {
     }
 
     public static int solutionPart2(InputFileSize aFileSize) {
-        final String inputString = InputProvider.getInputString(YEAR, DAY, aFileSize);
-        return 0;
-
+        final List<char[]> input = InputProvider.getInputLines(YEAR, DAY, aFileSize)
+                .stream()
+                .map(aLine -> aLine.replace(" ", ""))
+                .map(String::toCharArray)
+                .toList();
+        int score = 0;
+        for (char[] round : input) {
+            final int opponentVal = opponent.indexOf(round[0]);
+            final int matchVal = player.indexOf(round[1]);
+            final int playerVal = (opponentVal + matchVal - 1 + 3) % 3;
+            score += playerVal + new int[]{1, 4, 7}[matchVal];
+        }
+        return score;
     }
 }

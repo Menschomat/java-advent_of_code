@@ -35,16 +35,13 @@ jobs:
       - name: Update dependency graph
         uses: advanced-security/maven-dependency-submission-action@v4
 
-      - name: Upload coverage report
-        uses: actions/upload-artifact@v3
-        with:
-          name: coverage-report
-          path: target/site/jacoco/index.html
+      - name: Debug test reports
+        run: ls -R target
 
       - uses: dorny/test-reporter@v1
         name: Upload test report
         with:
           artifact: test-results            # artifact name
-          name: JEST Tests                  # Name of the check run which will be created
-          path: '*.xml'                     # Path to test results (inside artifact .zip)
+          name: JUnit Tests                  # Name of the check run which will be created
+          path: 'target/surefire-reports/*.xml'                     # Path to test results (inside artifact .zip)
           reporter: java-junit              # Format of test results

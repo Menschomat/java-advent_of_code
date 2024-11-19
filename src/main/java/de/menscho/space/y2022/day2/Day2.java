@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class Day2 {
+public abstract class Day2 {
     private static final int YEAR = 2022;
     private static final int DAY = 2;
 

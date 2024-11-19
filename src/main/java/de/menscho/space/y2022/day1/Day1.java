@@ -5,7 +5,7 @@ import de.menscho.space.utils.InputProvider;
 
 import java.util.Arrays;
 
-public class Day1 {
+public abstract class Day1 {
     private static final int YEAR = 2022;
     private static final int DAY = 1;
 

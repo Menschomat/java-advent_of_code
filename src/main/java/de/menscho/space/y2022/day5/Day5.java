@@ -8,7 +8,7 @@ import java.util.regex.MatchResult;
 import java.util.regex.Pattern;
 import java.util.stream.Collector;
 
-public class Day5 {
+public abstract class Day5 {
     private static final int YEAR = 2022;
     private static final int DAY = 5;
 

@@ -30,4 +30,13 @@ class Day3Test {
         int fullOut = Day3.solutionPart2(InputFileSize.FULL);
         Assertions.assertEquals(2552, fullOut);
     }
+
+    @Test
+    void prioCalc() {
+        Assertions.assertEquals(1, Day3.getCharPrio('a'));
+        Assertions.assertEquals(26, Day3.getCharPrio('z'));
+        Assertions.assertEquals(27, Day3.getCharPrio('A'));
+        Assertions.assertEquals(52, Day3.getCharPrio('Z'));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> Day3.getCharPrio('Ä'));
+    }
 }

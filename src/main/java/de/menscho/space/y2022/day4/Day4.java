@@ -4,43 +4,56 @@ import de.menscho.space.utils.InputFileSize;
 import de.menscho.space.utils.InputProvider;
 
 import java.util.*;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
-import java.util.stream.Stream;
 
 public abstract class Day4 {
+
     private static final int YEAR = 2022;
     private static final int DAY = 4;
 
-    public static long solutionPart1(InputFileSize aFileSize) {
-        return InputProvider.getInputLines(YEAR, DAY, aFileSize).stream()
-                .map(aLine -> Arrays.stream(aLine.split(","))
-                        .map(aS -> Arrays.stream(aS.split("-"))
-                                .mapToInt(Integer::parseInt)
-                                .toArray())
-                        .sorted((a, b) -> (b[1] - b[0]) - (a[1] - a[0]))
-                        .toList())
-                .filter(aLine -> aLine.get(0)[0] <= aLine.get(1)[0])
-                .filter(aLine -> aLine.get(0)[1] >= aLine.get(1)[1])
+    public static long solutionPart1(InputFileSize fileSize) {
+        return InputProvider.getInputLines(YEAR, DAY, fileSize).stream()
+                .map(Day4::parseLineToRanges)
+                .filter(Day4::isFullyContained)
                 .count();
     }
 
-    public static long solutionPart2(InputFileSize aFileSize) {
-        return InputProvider.getInputLines(YEAR, DAY, aFileSize).stream()
-                .map(aLine -> Arrays.stream(aLine.split(","))
-                        .map(aS -> Arrays.stream(aS.split("-"))
-                                .mapToInt(Integer::parseInt)
-                                .toArray())
-                        .map(al -> IntStream.rangeClosed(al[0], al[1])
-                                .boxed()
-                                .toList()
-                        ).toList()
-                ).filter(a -> {
-                    Set<Integer> intersection = new HashSet<Integer>(a.get(0)); // use the copy constructor
-                    intersection.retainAll(a.get(1));
-                    return !intersection.isEmpty();
-                })
+    public static long solutionPart2(InputFileSize fileSize) {
+        return InputProvider.getInputLines(YEAR, DAY, fileSize).stream()
+                .map(Day4::parseLineToRangeSets)
+                .filter(Day4::hasOverlap)
                 .count();
+    }
+
+
+    private static List<int[]> parseLineToRanges(String line) {
+        return Arrays.stream(line.split(","))
+                .map(range -> Arrays.stream(range.split("-"))
+                        .mapToInt(Integer::parseInt)
+                        .toArray())
+                .sorted((range1, range2) ->
+                        Integer.compare(range2[1] - range2[0], range1[1] - range1[0]))
+                .toList();
+    }
+
+    private static List<Set<Integer>> parseLineToRangeSets(String line) {
+        return parseLineToRanges(line).stream()
+                .map(range -> IntStream.rangeClosed(range[0], range[1])
+                        .boxed()
+                        .collect(Collectors.toSet()))
+                .toList();
+    }
+
+    private static boolean isFullyContained(List<int[]> ranges) {
+        int[] firstRange = ranges.get(0);
+        int[] secondRange = ranges.get(1);
+        return firstRange[0] <= secondRange[0] && firstRange[1] >= secondRange[1];
+    }
+
+    private static boolean hasOverlap(List<Set<Integer>> rangeSets) {
+        Set<Integer> intersection = new HashSet<>(rangeSets.get(0));
+        intersection.retainAll(rangeSets.get(1));
+        return !intersection.isEmpty();
     }
 }

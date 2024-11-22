@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class FileUtils {
+public abstract class FileUtils {
     private static final Pattern FILE_PATTERN = Pattern.compile("^(\\d+)\\s(.+)$");
 
     public static SysFile buildFileTree(List<String> rawInputLines) {
